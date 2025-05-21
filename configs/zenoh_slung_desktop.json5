@@ -1,0 +1,109 @@
+////
+//// This file presents the default configuration used by both the `zenoh-plugin-ros2dds` plugin and the `zenoh-bridge-ros2dds` standalone executable.
+//// The "ros2" JSON5 object below can be used as such in the "plugins" part of a config file for the zenoh router (zenohd).
+////
+{
+  plugins: {
+    ////
+    //// ROS2 related configuration
+    //// All settings are optional and are unset by default - uncomment the ones you want to set
+    //// MOST OF ROS2 CONFIGURATION IN OUR USE CASE IS DONE IN ROS2 DIRECTLY
+    ros2dds: {
+      ////
+      //// COULD CAUSE TROUBLE IF SET TO TRUE HERE, BETTER TO ADD THE ENV VARIABLE ROS_LOCALHOST_ONLY=1 IN EACH DRONE.
+      // ros_localhost_only: true,
+
+      allow: {
+         publishers: ["/chatter"],
+         subscribers: ["/chatter"],
+      //   service_servers: ["/sim/get_system_info"],
+      //   service_clients: [],
+      //   action_servers: [".*/rotate_absolute"],
+      //   action_clients: [],
+      },
+      // deny: {
+      //   publishers: ["/rosout", "/parameter_events"],
+      //   subscribers: ["/rosout"],
+      //   service_servers: [".*/set_parameters"],
+      //   service_clients: [".*/set_parameters"],
+      //   action_servers: [],
+      //   action_clients: [],
+      // },
+
+    },
+
+  },
+
+  ////
+  //// Zenoh related configuration.
+  //// Only the most relevant sections are displayed here.
+  //// For a complete view of configuration possibilities, see https://github.com/eclipse-zenoh/zenoh/blob/main/DEFAULT_CONFIG.json5
+  //// WE SHOULD REVISIT THE CONFIGURATION WHEN WE DO DECENTRALIZED
+
+  ////
+  //// mode: The bridge's mode (router, peer or client)
+  //// SET TO 'ROUTER' FOR TESTING BETWEEN TWO DRONES. 
+  //// SET TO 'ROUTER' FOR THE GCS ONLY AND 'CLIENT' FOR ALL DRONES IN
+  //// CENTRALIZED EXPERIMENT, SET TO 'PEERS' FOR DRONES IN DECENTRALIZED
+  //// EXPERIMENTS
+  mode: "router", 
+
+  ////
+  //// Which endpoints to connect to. E.g. tcp/localhost:7447.
+  //// By configuring the endpoints, it is possible to tell zenoh which remote router or other zenoh-bridge-ros2dds to connect to at startup.
+  //// SET TO THE OTHER DRONE WHEN TESTING BETWEEN TWO DRONES,
+  //// SET TO THE GCS IN REAL EXPERIMENTS
+  //// I WOULD TRY WITH TCP FIRST AND IF IT DOESN'T WORK WITH THREE DRONES
+  //// I WOULD SWITCH TO UDP
+  connect: {
+    endpoints: [
+      //"tcp/192.168.3.29:7447", //Desktop
+      "tcp/192.168.3.145:7447", //Laptop
+    ]
+  },
+
+  ////
+  //// NOT NEEDED FOR CENTRALIZED
+  // listen: {
+  //  endpoints: [
+  //    // "<proto>/<ip>:<port>"
+  //  ]
+  //},
+
+  ////
+  //// Configure the scouting mechanisms and their behaviours
+  //// THE DEFAULT ZENOH CONFIGURATION (IN THE OTHER FILE) LOOKS FINE
+  //scouting: {
+  //  /// The UDP multicast scouting configuration.
+  //  multicast: {
+  //    /// Whether multicast scouting is enabled or not
+  //    enabled: true,
+  //    /// The socket which should be used for multicast scouting
+  //    address: "224.0.0.224:7446",
+  //    /// The network interface which should be used for multicast scouting
+  //    interface: "auto", // If not set or set to "auto" the interface if picked automatically
+  //    /// Which type of Zenoh instances to automatically establish sessions with upon discovery on UDP multicast.
+  //    /// Accepts a single value or different values for router, peer and client.
+  //    /// Each value is an array containing values "peer", "router" and "client".
+  //    autoconnect: { router: [], peer: ["router","peer"] },
+  //    /// Whether or not to listen for scout messages on UDP multicast and reply to them.
+  //    listen: true,
+  //  },
+  //  /// The gossip scouting configuration.
+  //  gossip: {
+  //    /// Whether gossip scouting is enabled or not
+  //    enabled: true,
+  //    /// When true, gossip scouting information is propagated multiple hops to all nodes in the local network.
+  //    /// When false, gossip scouting information is only propagated to the next hop.
+  //    /// Activating multihop gossip implies more scouting traffic and a lower scalability.
+  //    /// It mostly makes sense when using "linkstate" routing mode where all nodes in the subsystem don't have
+  //    /// direct connectivity with each other.
+  //    multihop: false,
+  //    /// Which type of Zenoh instances to automatically establish sessions with upon discovery on gossip.
+  //    /// Accepts a single value or different values for router, peer and client.
+  //    /// Each value is an array containing values "peer", "router" and "client".
+  //    autoconnect: { router: [], peer: ["router","peer"] },
+  //  },
+  //},
+
+}
