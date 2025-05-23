@@ -14,8 +14,8 @@
       // ros_localhost_only: true,
 
       allow: {
-         publishers: ["/chatter"],
-         subscribers: ["/chatter"],
+         publishers: ["/chatter", ".*/in/.*"],
+         subscribers: ["/chatter", ".*/out/.*"],
       //   service_servers: ["/sim/get_system_info"],
       //   service_clients: [],
       //   action_servers: [".*/rotate_absolute"],
@@ -58,7 +58,7 @@
   connect: {
     endpoints: [
       "tcp/192.168.3.29:7447", //Desktop
-      //"tcp/192.168.3.145:7447", //Laptop
+      //"tcp/192.168.3.142:7447", //Laptop
     ]
   },
 
