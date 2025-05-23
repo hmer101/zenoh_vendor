@@ -13,14 +13,14 @@
       //// COULD CAUSE TROUBLE IF SET TO TRUE HERE, BETTER TO ADD THE ENV VARIABLE ROS_LOCALHOST_ONLY=1 IN EACH DRONE.
       // ros_localhost_only: true,
 
-      allow: {
-         publishers: ["/chatter", ".*/out/.*", ".*/in/.*", "/tf", "/tf_static"], 
-         subscribers: ["/chatter", ".*/in/.*", ".*/out/.*", "/tf", "/tf_static"],
+      //allow: {
+      //   publishers: ["/chatter", ".*/out/.*", ".*/in/.*", "/tf", "/tf_static"], 
+      //   subscribers: ["/chatter", ".*/in/.*", ".*/out/.*", "/tf", "/tf_static"],
       //   service_servers: ["/sim/get_system_info"],
       //   service_clients: [],
       //   action_servers: [".*/rotate_absolute"],
       //   action_clients: [],
-      },
+      //},
       // deny: {
       //   publishers: ["/rosout", "/parameter_events"],
       //   subscribers: ["/rosout"],
@@ -58,7 +58,7 @@
   connect: {
     endpoints: [
       //"tcp/192.168.3.29:7447", //Desktop
-      "tcp/192.168.3.142:7447", //Laptop
+      "tcp/192.168.3.102:7447", //Laptop
     ]
   },
 
