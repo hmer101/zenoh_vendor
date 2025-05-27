@@ -13,22 +13,25 @@
       //// COULD CAUSE TROUBLE IF SET TO TRUE HERE, BETTER TO ADD THE ENV VARIABLE ROS_LOCALHOST_ONLY=1 IN EACH DRONE.
       // ros_localhost_only: true,
 
-      //allow: {
-      //   publishers: ["/chatter", ".*/in/.*"],
-      //   subscribers: ["/chatter", ".*/out/.*"],
-      //   service_servers: ["/sim/get_system_info"],
-      //   service_clients: [],
+      // ".*/in/.*"
+      // ".*/out/.*"
+
+      allow: {
+         publishers: ["/tf", "/tf_static", ".*/world", ".*/out/manual_control_setpoint", ".*/out/current_phase", ".*/out/pixhawk_status", ".*/out/global_init_pose", ".*/in/desired_attitude", ".*/in/desired_local_position"],
+         subscribers: ["/tf", "/tf_static", ".*/world", ".*/out/manual_control_setpoint", ".*/out/current_phase", ".*/out/pixhawk_status", ".*/out/global_init_pose", ".*/in/desired_attitude", ".*/in/desired_local_position"],
+         service_servers: [".*/phase_change", ".*/phase_change_request", ".*/desired_pose_rel_load"],
+         service_clients: [".*/phase_change", ".*/phase_change_request", ".*/desired_pose_rel_load"],
       //   action_servers: [".*/rotate_absolute"],
       //   action_clients: [],
-      //},
-      // deny: {
-      //   publishers: ["/rosout", "/parameter_events"],
-      //   subscribers: ["/rosout"],
+      },
+      //deny: {
+      //  publishers: [".*/fmu/(?!.*manual_control_setpoint).*", "/px4_1/.*"], 
+      //  subscribers: [".*/fmu/.*", "/px4_1/.*"],
       //   service_servers: [".*/set_parameters"],
       //   service_clients: [".*/set_parameters"],
       //   action_servers: [],
       //   action_clients: [],
-      // },
+      //},
 
     },
 
@@ -55,12 +58,12 @@
   //// SET TO THE GCS IN REAL EXPERIMENTS
   //// I WOULD TRY WITH TCP FIRST AND IF IT DOESN'T WORK WITH THREE DRONES
   //// I WOULD SWITCH TO UDP
-  connect: {
-    endpoints: [
-      "tcp/192.168.3.29:7447", //Desktop
+  //connect: {
+  //  endpoints: [
+  //    "tcp/192.168.3.29:7447", //Desktop
       //"tcp/192.168.3.142:7447", //Laptop
-    ]
-  },
+  //  ]
+  //},
 
   ////
   //// NOT NEEDED FOR CENTRALIZED
