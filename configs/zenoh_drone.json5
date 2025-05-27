@@ -9,44 +9,68 @@
     //// All settings are optional and are unset by default - uncomment the ones you want to set
     //// MOST OF ROS2 CONFIGURATION IN OUR USE CASE IS DONE IN ROS2 DIRECTLY
     ros2dds: {
-      //allow: {
-      //  publishers: ["/tf", "/tf_static", ".*/current_phase", ], 
-      //  subscribers: ["/chatter", ".*/in/.*", ".*/out/.*", "/tf", "/tf_static"],
-      //   service_servers: ["/sim/get_system_info"],
-      //   service_clients: [],
+      allow: {
+        publishers: ["/tf", "/tf_static", ".*/world", ".*/out/manual_control_setpoint", ".*/out/current_phase", ".*/out/pixhawk_status", ".*/out/global_init_pose", ".*/in/desired_attitude", ".*/in/desired_local_position"],
+        subscribers: ["/tf", "/tf_static", ".*/world", ".*/out/manual_control_setpoint", ".*/out/current_phase", ".*/out/pixhawk_status", ".*/out/global_init_pose", ".*/in/desired_attitude", ".*/in/desired_local_position"],
+        service_servers: [".*/phase_change", ".*/phase_change_request", ".*/desired_pose_rel_load"],
+        service_clients: [".*/phase_change", ".*/phase_change_request", ".*/desired_pose_rel_load"],
       //   action_servers: [".*/rotate_absolute"],
       //   action_clients: [],
-      //},
-      deny: {
-        publishers: [".*/fmu/(?!.*manual_control_setpoint).*"], 
-        subscribers: [".*/fmu/.*"],
+      },
+      //deny: {
+      //  publishers: [".*/fmu/(?!.*manual_control_setpoint).*"], 
+      //  subscribers: [".*/fmu/.*"],
       //   service_servers: [".*/set_parameters"],
       //   service_clients: [".*/set_parameters"],
       //   action_servers: [],
       //   action_clients: [],
-      },
-
+      //},
     },
 
   },
 
+
 // Required in gcs_user
   // /fmu/out/manual_control_setpoint - published by 1st drone 
+
+  // /gcs_background_{self.load_id}/phase_change_request' - service by gcs_background
+  // f'/px4_{i}/phase_change' - service by drone
+
 
 // Required in gcs_background
 // f'/px4_{i}/out/current_phase' - Published by drones
 
+// f'/px4_{i}/desired_pose_rel_load' - service by drone
+// f'/px4_{i}/phase_change' - service by drone
+
+
   // Required in load
   // f'/px4_{i}/out/current_phase' - Published by drones
+
+  // No services/clients
+
 
   // Required in drone
   // f'/load_{self.load_id}/in/desired_attitude', - published by gcs_background
   // f'/load_{self.load_id}/in/desired_local_position' - published by gcs_background
   // (f'{self.ns}/out/pixhawk_status' - published by corresponding pixhawk node) - note already local
 
+  // No clients
+
 // Required in pixhawk
 // "/px4_" + std::to_string(this->first_drone_num_) + "/out/global_init_pose" - published by all Pixhawks
 // (f'/px4_{X}/out/current_phase' - Published by corresponding drone) - note already local
+
+// No services/clients
+
+
+// Required in mocap
+// /merton_drone{i}/world - published by mocap
+
+// (/fmu/in/vehicle_visual_odometry - this is the transformed mocap data that gets sent to PX4)
+
+// No clients/services
+
 
 
   ////
@@ -61,7 +85,8 @@
   //// SET TO 'ROUTER' FOR THE GCS ONLY AND 'CLIENT' FOR ALL DRONES IN
   //// CENTRALIZED EXPERIMENT, SET TO 'PEERS' FOR DRONES IN DECENTRALIZED
   //// EXPERIMENTS
-  mode: "router", 
+  //mode: "router",
+  mode: "client", 
 
   ////
   //// Which endpoints to connect to. E.g. tcp/localhost:7447.
