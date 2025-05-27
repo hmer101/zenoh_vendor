@@ -13,14 +13,14 @@
       //// COULD CAUSE TROUBLE IF SET TO TRUE HERE, BETTER TO ADD THE ENV VARIABLE ROS_LOCALHOST_ONLY=1 IN EACH DRONE.
       // ros_localhost_only: true,
 
-      allow: {
-         publishers: ["/chatter", ".*/in/.*"],
-         subscribers: ["/chatter", ".*/out/.*"],
+      //allow: {
+      //   publishers: ["/chatter", ".*/in/.*"],
+      //   subscribers: ["/chatter", ".*/out/.*"],
       //   service_servers: ["/sim/get_system_info"],
       //   service_clients: [],
       //   action_servers: [".*/rotate_absolute"],
       //   action_clients: [],
-      },
+      //},
       // deny: {
       //   publishers: ["/rosout", "/parameter_events"],
       //   subscribers: ["/rosout"],
