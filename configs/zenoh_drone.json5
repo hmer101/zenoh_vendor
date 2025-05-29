@@ -97,8 +97,9 @@
   //// I WOULD SWITCH TO UDP
   connect: {
     endpoints: [
-      //"tcp/192.168.3.29:7447", //Desktop
-      "tcp/192.168.3.102:7447", //Laptop (BilabRouter)
+      //"tcp/192.168.3.102:7447", //Laptop (BilabRouter)
+      "tcp/192.168.0.20:7447", //Aldrin (RAVEN-50)
+      //"tcp/192.168.0.197:7447", //Laptop (RAVEN-50)
     ]
   },
 
