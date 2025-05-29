@@ -1,33 +1,26 @@
-////
-//// This file presents the default configuration used by both the `zenoh-plugin-ros2dds` plugin and the `zenoh-bridge-ros2dds` standalone executable.
-//// The "ros2" JSON5 object below can be used as such in the "plugins" part of a config file for the zenoh router (zenohd).
-////
 {
   plugins: {
-    ////
-    //// ROS2 related configuration
-    //// All settings are optional and are unset by default - uncomment the ones you want to set
-    //// MOST OF ROS2 CONFIGURATION IN OUR USE CASE IS DONE IN ROS2 DIRECTLY
-    ros2dds: {
+    ros2dds: {  
       allow: {
         publishers: ["/tf", "/tf_static", ".*/world", ".*/out/manual_control_setpoint", ".*/out/current_phase", ".*/out/pixhawk_status", ".*/out/global_init_pose", ".*/in/desired_attitude", ".*/in/desired_local_position"],
         subscribers: ["/tf", "/tf_static", ".*/world", ".*/out/manual_control_setpoint", ".*/out/current_phase", ".*/out/pixhawk_status", ".*/out/global_init_pose", ".*/in/desired_attitude", ".*/in/desired_local_position"],
         service_servers: [".*/phase_change", ".*/phase_change_request", ".*/desired_pose_rel_load"],
         service_clients: [".*/phase_change", ".*/phase_change_request", ".*/desired_pose_rel_load"],
-      //   action_servers: [".*/rotate_absolute"],
-      //   action_clients: [],
       },
-      //deny: {
-      //  publishers: [".*/fmu/(?!.*manual_control_setpoint).*"], 
-      //  subscribers: [".*/fmu/.*"],
-      //   service_servers: [".*/set_parameters"],
-      //   service_clients: [".*/set_parameters"],
-      //   action_servers: [],
-      //   action_clients: [],
-      //},
     },
-
   },
+
+  // Zenoh related configuration.
+  mode: "client", 
+
+  connect: {
+    endpoints: [
+      "tcp/192.168.0.20:7447", //Aldrin (RAVEN-50)
+      "tcp/192.168.3.102:7447", //Laptop (BilabRouter)
+    ]
+  },
+
+}
 
 
 // Required in gcs_user
@@ -71,43 +64,3 @@
 
 // No clients/services
 
-
-
-  ////
-  //// Zenoh related configuration.
-  //// Only the most relevant sections are displayed here.
-  //// For a complete view of configuration possibilities, see https://github.com/eclipse-zenoh/zenoh/blob/main/DEFAULT_CONFIG.json5
-  //// WE SHOULD REVISIT THE CONFIGURATION WHEN WE DO DECENTRALIZED
-
-  ////
-  //// mode: The bridge's mode (router, peer or client)
-  //// SET TO 'ROUTER' FOR TESTING BETWEEN TWO DRONES. 
-  //// SET TO 'ROUTER' FOR THE GCS ONLY AND 'CLIENT' FOR ALL DRONES IN
-  //// CENTRALIZED EXPERIMENT, SET TO 'PEERS' FOR DRONES IN DECENTRALIZED
-  //// EXPERIMENTS
-  //mode: "router",
-  mode: "client", 
-
-  ////
-  //// Which endpoints to connect to. E.g. tcp/localhost:7447.
-  //// By configuring the endpoints, it is possible to tell zenoh which remote router or other zenoh-bridge-ros2dds to connect to at startup.
-  //// SET TO THE OTHER DRONE WHEN TESTING BETWEEN TWO DRONES,
-  //// SET TO THE GCS IN REAL EXPERIMENTS
-  //// I WOULD TRY WITH TCP FIRST AND IF IT DOESN'T WORK WITH THREE DRONES
-  //// I WOULD SWITCH TO UDP
-  connect: {
-    endpoints: [
-      //"tcp/192.168.3.29:7447", //Desktop
-      "tcp/192.168.3.102:7447", //Laptop (BilabRouter)
-    ]
-  },
-
-  ////
-  //// NOT NEEDED FOR CENTRALIZED
-  // listen: {
-  //  endpoints: [
-  //    // "<proto>/<ip>:<port>"
-  //  ]
-  //},
-
-}

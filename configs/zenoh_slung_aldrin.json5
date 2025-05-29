@@ -1,0 +1,15 @@
+{
+  plugins: {
+    ros2dds: {
+      allow: {
+         publishers: ["/trajs", "/tf", "/tf_static", ".*/world", ".*/out/manual_control_setpoint", ".*/out/current_phase", ".*/out/pixhawk_status", ".*/out/global_init_pose", ".*/in/desired_attitude", ".*/in/desired_local_position"],
+         subscribers: ["/trajs", "/tf", "/tf_static", ".*/world", ".*/out/manual_control_setpoint", ".*/out/current_phase", ".*/out/pixhawk_status", ".*/out/global_init_pose", ".*/in/desired_attitude", ".*/in/desired_local_position"],
+         service_servers: [".*/phase_change", ".*/phase_change_request", ".*/desired_pose_rel_load"],
+         service_clients: [".*/phase_change", ".*/phase_change_request", ".*/desired_pose_rel_load"],
+      },
+    },
+  },
+
+  // Zenoh related configuration.
+  mode: "router", 
+}
