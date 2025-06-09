@@ -1,0 +1,24 @@
+{
+  plugins: {
+    ros2dds: {  
+      allow: {
+        publishers: [".*/world"],
+        subscribers: [".*/world"],
+        service_servers: [],
+        service_clients: [],
+      },
+    },
+  },
+
+  // Zenoh related configuration.
+  mode: "client", 
+
+  connect: {
+    endpoints: [
+      "tcp/192.168.0.20:7447", //Aldrin (RAVEN-50)
+      "tcp/192.168.3.102:7447", //Laptop (BilabRouter)
+    ]
+  },
+
+}
+

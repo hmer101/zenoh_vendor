@@ -1,0 +1,15 @@
+{
+  plugins: {
+    ros2dds: {
+      allow: {
+         publishers: [".*/world"],
+         subscribers: [".*/world"],
+         service_servers: [],
+         service_clients: [],
+      },
+    },
+  },
+
+  // Zenoh related configuration.
+  mode: "router", 
+}

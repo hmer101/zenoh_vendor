@@ -23,15 +23,27 @@ find_package(ament_cmake REQUIRED)
 set(ZENOH_arch_new zenoh-plugin-ros2dds-1.1.1-aarch64-unknown-linux-gnu-standalone.zip)
 set(ZENOH_new zenoh-plugin-ros2dds-1.1.1-x86_64-unknown-linux-gnu-standalone.zip)
 
-if($ENV{ROS_NAMESPACE} MATCHES "^r[0-9]+$")
-  # arm64 linux
-  set(ZENOH_ZIP_FILE ${ZENOH_arch_new})
+# if($ENV{ROS_NAMESPACE} MATCHES "^r[0-9]+$")
+#   # arm64 linux
+#   set(ZENOH_ZIP_FILE ${ZENOH_arch_new})
   
-else()
-  # x86_64 desktop
-  set(ZENOH_ZIP_FILE ${ZENOH_new})
+# else()
+#   # x86_64 desktop
+#   set(ZENOH_ZIP_FILE ${ZENOH_new})
 
+# endif()
+
+# Detect architecture
+string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" ARCH_LOWER)
+
+message(STATUS "Detected architecture: ${ARCH_LOWER}")
+
+if(ARCH_LOWER MATCHES "aarch64" OR ARCH_LOWER MATCHES "arm64")
+  set(ZENOH_ZIP_FILE ${ZENOH_arch_new})
+else()
+  set(ZENOH_ZIP_FILE ${ZENOH_new})
 endif()
+
 
 add_custom_command(
   OUTPUT
